@@ -1,0 +1,38 @@
+---
+knit: (function(input, encoding) { cibi::render_rmd(input, encoding=encoding) })
+output: html_document
+---
+---
+title: `r PROJECT`
+date: `r format(Sys.time(), "%Y-%m-%d %X")`
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+cibi::define_globals()
+```
+
+
+## Steps table
+
+```{r steps_table, echo=FALSE}
+# identify files to report
+reports <- list.files(
+  path = file.path(ROOT, "05_output"), pattern = "\\.html$") |>
+  setdiff("00_main.html")
+# add file info
+infos <- file.info(
+  file.path(ROOT, "05_output", reports))[, c("size", "ctime", "mtime")]
+# add steps
+step <- sapply(reports, function(loc) {
+    as.character(shiny::a(sub("\\.html$", "", loc), href=loc)) })
+# add link to directory
+output <- sub("\\.html$", "", rownames(infos))
+output <- sapply(output, function(loc) {
+  ifelse(dir.exists(loc),
+         as.character(shiny::a("browse", href=basename(loc))), "")
+})
+# build table
+infos <- data.frame(step, infos, output)
+knitr::kable(infos, row.names = FALSE)
+```

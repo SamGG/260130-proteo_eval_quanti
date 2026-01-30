@@ -1,0 +1,84 @@
+---
+knit: (function(input, encoding) { cibi::render_rmd(input, encoding=encoding) })
+output:
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_float: false
+    toc_depth: 2
+---
+---
+title: `r paste(SCRIPT, sprintf("<small>%s</small>", PROJECT), sep = "<br />")`
+author: "the_author"
+date: "the_date"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.width=9, fig.height=9)
+cibi::define_globals()
+```
+
+
+## Script parameters
+
+```{r print_globals, echo=FALSE}
+```
+
+
+```{r libraries, include=FALSE}
+stopif <- function(cond, ...) stopifnot(!cond, ...)
+library(kableExtra)
+```
+
+
+## User parameters
+
+```{r user parameters, class.source='fold-show bg-warning'}
+```
+
+
+## I/O
+
+### Load data
+
+```{r load data, class.source = 'fold-show'}
+load(file.path(OUTPUTS, "the_previous_data", "the_previous_data.RData"))
+```
+
+### Output
+
+```{r output dir, class.source = 'fold-show'}
+# if there are output files, the working directory is the output directory
+# equivalent to setwd(OUTPUT)
+# if there is no output file, use a tempdir if the process needs to write/read
+# some files; clean everything at the end
+```
+
+
+## Step name
+
+Write here what the code will do.
+
+```{r}
+cat("Hello world!")
+```
+
+
+## Store data
+
+```{r store, class.source = 'fold-show'}
+save(processed_data_for_next_steps,
+     file = file.path(OUTPUT, "the_script.RData"))
+```
+
+
+## Script session
+
+<details>
+<summary>Session info</summary>
+```{r session_info, echo=FALSE}
+```
+</details>
+
+<br />
